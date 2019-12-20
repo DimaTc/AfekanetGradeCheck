@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="he" class="ie9"> <![endif]--> 
+<!--[if !IE]><!--> <html lang="he" dir="rtl"> <!--<![endif]--> 
+<head>
+	<meta charset="utf-8">
+	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="תחנת מידע ורישום לאינטרנט עבור מוסדות אקדמיים">
+	<meta name="author" content="yftach carmi Yedion Ltd">	
+	<meta property="og:title" content="תחנת מידע במוסד האקדמי לסטודנט ולמרצה">
+	<meta property="og:image" content="/info/images/CollegeLogo.png">	
+		<!--[if IE]><meta http-equiv="expires" content="-1"><![endif]-->
+		<title>אפקה-נט לסטודנט  אפקה - המכללה האקדמית  להנדסה  בתל-אביב ברוכים הבאים לאפקה-נט לסטודנט</title>
+
+<link rel="icon" type="image/x-icon" href="/info/images/Favicon.ico">
+<link rel="stylesheet" href="/info/sort/yedionBase/AllCss2019.css">
+<link rel="stylesheet" href="/info/customClient.css">		
+
+<script>
+	var generatedToken = '06395005304';
+	var progName='';
+</script>	
+
+
+</head> 
+
+<body OnLoad="AutoExec()">
+<div class="modal alertModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="title"></div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="סגירת חלונית אזהרה">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="desc"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal confirmmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="confirmtitle"></div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="סגירת חלונית אישור פעולה">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="desc2"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-u" id="modalProcessAction">אשר פעולה</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">בטל</button>
+      </div>
+    </div>
+  </div>
+</div>
+	 	<a class="sr-only" href="#BodyOfData" aria-label="דילוג לתוכן">דילוג עד נקודת תוכן דף</a>
+<span id="Loading" class="fa fa-spinner fa-5x spin-slow color-green Loading">&nbsp;</span>
+		<div class="wrapper">
+ <div class="header" role="region">
+	 <div class="topbar no-print">
+		 <div class="container">
+			<div class="Banner"><div style="text-align:center">
+<img id="image1" class="img-responsive" src="/info/images/topAfeka.jpg"></div></div>
+			<div class="pull-left">
+															
+					<img id="logo-header" src="/info/images/CollegeLogo.png" alt="מסך הכניסה" class="customer-logo">
+					
+													</div>
+			 <ul class="loginbar pull-right">
+			 <li class="topbar-devider">אפקה-נט</li> 
+				<li class="topbar-devider">
+					19/12/2019 09:30
+				</li>
+																					
+																										
+																					</ul>
+			</div>
+		 </div>
+	<nav class="navbar navbar-default mega-menu">
+	 		 </nav> 
+ </div>
+ <div class="breadcrumbs no-print">
+ 	<div class="container">
+		 <h1 class="pull-right">ברוכים הבאים לאפקה-נט לסטודנט</h1>
+		 <div  role="banner">
+		 <ul class="pull-left breadcrumb">	
+		 
+									
+									
+									
+																																													
+			
+			
+			
+			
+			
+				
+							
+																								
+																	
+										
+									
+			<li class="topbar-devider">
+				<button type="button" OnClick="javascript:window.print()" accesskey="P" class="BN"><span class="fa fa-print color-green" title="צלמית עבור הדפסה" aria-hidden="true">&nbsp;</span><span class="sr-only">הדפסה</span></button> 
+			</li>					
+
+											
+			<li class="topbar-devider"> 
+			<div name="AccessHidden" class="Access AccessHidden" style="display: inline">
+				
+					<button type="button" OnClick="javascript:enlarge();" class="AboutOpen BN" accesskey="+" id="bigger" title="הגדלה של המלל בעת לחיצה על כפתור זה"><span class="fa fa-search-plus" aria-hidden="true">&nbsp;<span class="sr-only">הגדלת פונט</span></span><span class="sr-only">הגדלת פונט</span></button>
+					<button type="button" OnClick="javascript:shrink();" class="AboutOpen BN" accesskey="-" id="smaller" title="הקטנה של המלל בעת לחיצה על כפתור זה"><span class="fa fa-search-minus" aria-hidden="true">&nbsp;<span class="sr-only">הקטנת פונט</span></span><span class="sr-only">הקטנת פונט</span></button>						
+				
+					<button type="button" OnClick="javascript:enlargeC();" class="AboutOpen BN" accesskey="C" id="contrastPlus" title="קונטרסט כהה"><span class="fa fa-plus" aria-hidden="true">&nbsp;</span><span class="sr-only">לחיזוק הקונטרסט</span></button>&nbsp;
+					<span class="fa fa-adjust">&nbsp;</span>
+					<button type="button" OnClick="javascript:shrinkC();" class="AboutOpen BN" accesskey="N" id="contrastMinus" title="קונטרסט בהיר"><span class="fa fa-minus" aria-hidden="true">&nbsp;</span><span class="sr-only">להחלשת הקונטרסט</span></button>&nbsp;
+				
+			</div>
+			<button type="button" OnClick="javascript:Access();" class="AboutOpen BN" accesskey="=" id="Access" title="גישה לפקודות נגישות"><span class="fab fa-accessible-icon fa-lg" style="color:black" aria-hidden="true">&nbsp;<span class="sr-only">גישה לפקודות נגישות</span></span><span class="sr-only">גישה לפקודות נגישות</span></button>
+			</li>	
+		 </ul>
+		 
+		 
+		 </div>
+	 </div>
+ </div>
+ <div class="container content" role="main">		
+ 	<div class="row">
+		<div class="col-md-12">
+				
+
+<script src="/info/sort/yedionBase/AllJavascript.js?1"></script>
+<script src="/info/sort/yedionBase/yedion2019.js"></script>
+<!--<script src="/info/sort/nagishli_v3/nagishli_alpha.js"></script>
+
+<script>
+nagishli_default_config = {
+	language: "he"; // שפת התוסף
+	pos : "bl"
+}
+</script>
+-->
+
+<script>
+	 jQuery(document).ready(function() {
+	 App.init();
+	 if($(window).width()<300 || $(document).width()<300)
+	 {
+	  alert('מסך נפתח בצורה צרה מידי - נא לשנות את גודל המסך כדי לעבוד בצורה תקינה'+ $(window).width());
+	  top.window.resizeTo(900, 900);
+	  top.window.resizeTo(screen.availWidth, screen.availHeight);
+	  location.reload(false);
+	 }
+	 
+	 });
+	setInterval("keepalive()", 100000);
+	function keepalive() {
+		$.post('fireflyweb.aspx?prgname=StayConnect',{},function(e){ });
+	}
+
+    	
+	window.onpageshow = function(event) {
+		if (event.persisted) {
+			$('.Loading').hide();
+		}
+	};
+  $(document).ready(function(e){
+	$('ul.nav li.dropdown > a').click(function(e){
+		$(this).parent().children('ul').toggle();
+	});	
+  });
+		$(document).ready(function() {
+			$('.Access').hide();
+			$('#bigger, #smaller, #ConB, #ConL, #ConW, #Excel, #Outlook,.AboutOpen').tooltipster();
+						$("select").select2(
+								{
+				dir: "rtl"
+				}
+							);
+				
+					});
+
+
+
+
+function Access()
+{
+	$('.AccessHidden').toggle();
+}
+</script>
+
+<noscript>
+	<div>עימכם הסליחה אבל אתר זה לא יכול לעבוד במצב של נטרול פעולות JavaScript. נא לשנות הגדרות דפדפן או לגלוש מדפדפן אחר</div>
+</noscript>
+
+ 
+ <a id="BodyOfData" aria-label="מכאן מתחיל התוכן של הדף"></a>
+ 
+ <!--FileName : Header_Of_HTML_Type_6.HTM -->
+ <script src="/info/sort/crypto/crypto-js.aes.js"></script>
+
+<script>
+function onSubmitForm () {	
+$.ajax({
+    type: "POST",
+    async: false,
+    url: "FireflyWeb.aspx?PRGNAME=Enc",
+    data: "",
+    contentType: "application/json; charset=utf-8",
+    error: function (XMLHttpRequest, textStatus, errorThrown) { },
+    success: function (StrReturn) {
+				var pw = $('#R1C2').val();
+				var key = CryptoJS.enc.Base64.parse(StrReturn);
+				var iv  = CryptoJS.enc.Base64.parse(StrReturn);
+
+				var encres = CryptoJS.AES.encrypt(pw, key, {iv:iv, keySize: 256, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7});
+				$('#R1C2').val("");
+				$('#R1C5').val(encres.toString());
+				return true;
+			}
+    });
+}
+</script>
+
+<script>
+$(document).ready(function(e){
+  $('#R1C1').val('');
+  $('#R1C2').val('');
+  $('#generatedToken').val(generatedToken);
+  $('#R1C1').focus();
+  $('#R1C2').keyup(function(e){
+	   var ignore_key_codes = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת','ן','ץ','ף','ך','ם'];	   
+	   if ($.inArray($('#R1C2').val().substr($('#R1C2').val().length-1), ignore_key_codes) >= 0){
+		  $('.alertModal #desc').html('הנך מנסה להקליד בעברית');
+		  $('.alertModal').modal('show');
+		  this.value = this.value.replace($('#R1C2').val().substr($('#R1C2').val().length-1),'');
+	   }
+  });
+});
+</script>
+
+<script>
+$(document).ready(function(e){
+  $('#R1C1').keyup(function(e){
+	   var ignore_key_codes = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת','ן','ץ','ף','ך','ם'];	   
+	   if ($.inArray($('#R1C1').val().substr($('#R1C1').val().length-1), ignore_key_codes) >= 0){
+		  $('.alertModal #desc').html('הנך מנסה להקליד בעברית');
+		  $('.alertModal').modal('show');
+		  this.value = this.value.replace($('#R1C1').val().substr($('#R1C1').val().length-1),'');
+	   }
+  });
+});
+</script>
+
+
+ <script>
+	 var ready = (function () {
+	 var ready_event_fired = false;
+	 var ready_event_listener = function (fn) {
+	 var idempotent_fn = function () {
+	 if (ready_event_fired) {
+	 return;
+	 }
+	 ready_event_fired = true;
+	 return fn();
+	 }
+	 var do_scroll_check = function () {
+	 if (ready_event_fired) {
+	 return;
+	 }
+	 try {
+	 document.documentElement.doScroll('left');
+	 } catch(e) {
+	 setTimeout(do_scroll_check, 1);
+	 return;
+	 }
+	 return idempotent_fn();
+	 }
+	 if (document.readyState === "complete") {
+	 return idempotent_fn()
+	 }
+	 if (document.addEventListener) {
+	 document.addEventListener("DOMContentLoaded", idempotent_fn, false);
+	 window.addEventListener("load", idempotent_fn, false);
+	 } else if (document.attachEvent) {
+	 document.attachEvent("onreadystatechange", idempotent_fn);
+	 window.attachEvent("onload", idempotent_fn);
+	 var toplevel = false;
+	 try {
+	 toplevel = window.frameElement == null;
+	 } catch (e) {}
+	 if (document.documentElement.doScroll && toplevel) {
+	 return do_scroll_check();
+	 }
+	 }
+	 };
+	 return ready_event_listener;
+	 })();
+
+	 var verifyNotEmpty = function(field_name) {
+	 var field = document.getElementById(field_name);
+	 var field_message = document.getElementById(field_name + '_message');
+	 var showMessage = function () {
+	 if (!field_message) return;
+	 var value = field.value;
+	 if (value) {
+	 field_message.style.display = 'none';
+	 } else {
+	 field_message.style.display = 'inline';
+	 }
+	 }
+
+	 if (field) {
+	 field.onchange = field.onkeydown = field.onkeyup = function () {
+	 showMessage();
+	 }
+	 showMessage();
+	 }
+	 }
+
+	 ready(function () {
+	 verifyNotEmpty('R1C1');
+	 verifyNotEmpty('R1C2');
+	 });
+ </script>
+ 
+ <form ACTION="fireflyweb.aspx" autocomplete="off"
+	 ENCtype="multipart/form-data"
+	 METHOD="post"
+	 id="mainForm"
+	 onsubmit="return onSubmitForm();">
+
+	<input type="hidden" name="PRGNAME" value="LoginValidation">
+<input type="hidden" name="R1C5" id="R1C5" value="">
+<input type="hidden" name="generatedToken" id="generatedToken" value="">
+
+<input type="hidden" name="ARGUMENTS" value="R1C1,R1C2,-AH,-A,-N,-N,-N,-A,R1C5">
+
+
+<div id="main">
+<img src="/info/images/books.jpg" class="img-responsive homepage_background_image" alt="תמונת רקע במסך הכניסה">
+<div class="centerCont">
+
+<!--=== Content Part ===-->
+<div class="col-md-12 PaddingTop">
+	<div class="col-md-4 dir-rtl">
+		<!--Reg Block-->		
+		<div class="reg-block reg-block-Right">			
+						<fieldset>
+			 <legend class="sr-only">הזנת פרטי כניסה למערכת</legend>
+			<div class="input-group margin-bottom-10">
+				<span class="input-group-addon"><span class="fa fa-user color-green fa-lg">&nbsp;</span></span>
+				<label for="R1C1"  class="sr-only">משתמש:</label>
+				<input type="text" name="R1C1" id="R1C1" autocomplete="off" class="form-control " placeholder="שם משתמש ">
+			</div>
+			<div class="input-group margin-bottom-10 pw_placeholder">
+				<span class="input-group-addon"><span class="fa fa-lock color-green fa-lg">&nbsp;</span></span>
+				<label for="R1C2"  class="sr-only">סיסמה:</label>				
+				<input type="password" name="R1C2" id="R1C2" autocomplete="off" class="form-control" placeholder="סיסמה">
+			</div>
+			</fieldset>
+				
+							<div class="row">
+			
+				<div class="col-md-10 col-md-offset-1">
+					
+
+					<button type="submit"  id="loginbtn" class="btn-u btn-block">כניסה למערכת</button>					
+					<button id="sendcodebtn" type="button" onclick="onSendCode();" class="btn-u btn-block DisplayNone">שלח קוד חד-פעמי</button>
+				</div>
+			</div>
+			<hr>
+												<div class="row">
+											שם המשתמש באנגלית המשמש אותך גם למערכות האחרות				
+											ואת הסיסמה אותה קיבלת מאפקה - המכללה האקדמית  להנדסה  בתל-אביב						
+					</div>
+									<hr>
+		<div class="notes TextCenter">
+				 
+				 <p class="padLoginContent">
+	
+	
+	</p>
+	 </div>
+		</div>
+		<!--End Reg Block-->
+	</div>	
+	<div class="col-md-4 dir-rtl">
+				</div>
+	<div class="col-md-4 dir-rtl">
+				
+	</div>
+	</div>	
+
+
+	</div>
+	<div class="col-md-12">	
+</div>
+</div><!--/container-->
+<!--=== End Content Part ===-->
+
+</form>
+
+
+
+<script>
+	function onSendCode()
+	{
+		var R1C1 = $('#R1C1').val();
+		if (R1C1.length<3)
+		{
+			$('.alertModal #desc').html('יש להזין תעודת זהות תקינה');
+			$('.alertModal').modal('show');
+		} else {
+			$.post('fireflyweb.aspx',
+			{
+				prgname: "UniqPW",
+				ID: R1C1
+			},function(e){
+				$('.alertModal #desc').html('נא להזין את הסיסמה שקיבלת במסרון');
+				$('.alertModal').modal('show');
+				generateOneCodeForm('hide');				
+			});
+		}
+	}
+	function generateOneCodeForm(type)
+	{
+		if (type == 'show')
+		{
+			$('#defaultLoginbtn').show();
+			$('#oneTimeCodebtn').hide();
+			$('.pw_placeholder').hide();
+			$('#loginbtn').hide();
+			$('#sendcodebtn').show();
+		} else {
+			$('#defaultLoginbtn').hide();
+			$('#oneTimeCodebtn').show();
+			$('.pw_placeholder').show();
+			$('#loginbtn').show();
+			$('#sendcodebtn').hide();
+		}
+	}
+	$(document).ready(function(e){
+		var footer='<div id="footer" role="region"><a href="http:\/\/www.yedion.co.il\/valid.htm" accesskey="W" target="_blank" class="alignLogo" id="AlignNagish"  aria-label="מעבר לדף הסבר לגבי נגישות" ><span class="fab fa-html5 color-green font45" title="צלמית עמידה בתקני HTML5" aria-hidden="true"> <\/span><span class="sr-only">קישור לעמידה בתקני HTML5<\/span><\/a>  <a href="http:\/\/www.yedion.co.il\/nagish.htm" class="text" target="_blank" title="Opens new window" accesskey="N"  aria-label="עמידה בתקני נגישותת" ><img src="/info/sort\/images\/accessibility.jpg" alt="אתר נגיש"  id="AlignNagish2" class="Border0"><\/a><a href="http:\/\/www.yedion.co.il" class="text" target="_blank" title="Opens new window" accesskey="Y"><img src="/info/sort\/images\/yedion.png" alt="ידיעון" class="alignLogo"><\/a><\/div>';
+		$('.wrapper').append(footer);
+	});
+</script>
+
+<div class="calculationResults"></div>
+
+ <!--FileName : login6.htm-->
+</div></div></div><!--/container-->		<!--=== End Content Part ===--></div><!--/wrapper-->
+<!-- Time To Make Page:00:00:00.0138097; NumberOfRowsInQuery:-->
+</body></html>
