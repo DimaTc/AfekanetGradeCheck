@@ -102,7 +102,7 @@ def check_for_updates(smtp_server: MailServer):
         body += "<div dir=\"rtl\">\n"
         for k in updated_grades:
             body += "<b>{}:</b> {}\n".format(k, updated_grades[k])
-            print("\nNew Grade:{} == {}\n".format(k, updated_grades[k]))
+            print("\nNew Grade:{} == {}\n<br>".format(k, updated_grades[k]))
         body +="</div>\n"
         updated_grades = {} #reset
         smtp_server.sendMessage(body)
