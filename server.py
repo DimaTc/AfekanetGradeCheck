@@ -157,15 +157,18 @@ def get_diff_grades(old, new):
 
 
 def load_settings():
-    with open("data", "rb") as f:
-        data = f.read()
-        line = base64.decodebytes(data).decode().strip()
-        data = line.split("\n")
-        if len(data) != TOTAL:
-            print("settings file corrupted, enter the data manually")
-            return None
-        return data
-
+    try:
+        with open("data", "rb") as f:
+            data = f.read()
+            line = base64.decodebytes(data).decode().strip()
+            data = line.split("\n")
+            if len(data) != TOTAL:
+                print("settings file corrupted, enter the data manually")
+                return None
+            return data
+    except IOError:
+        print("No settings file was found")
+        return None
 
 def save_settings(data):
     data_b = ""
