@@ -74,7 +74,7 @@ def start_server():
     year = 2020  # default values - will be replaces
     semester = 1
     while(flag):
-        year = input("Please enter academic year to listen to:")
+        year = input("Please enter the academic year to listen to:")
         semester = input("Please enter the semester to listen to:")
         try:
             year = int(year)
