@@ -3,7 +3,7 @@ import base64
 import re
 import threading
 import time
-from mail_server import MailServer 
+from mail_server import MailServer
 from random import randint
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
@@ -17,7 +17,7 @@ main_url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx"
 
 updated_grades = {}
 
-GRADE_CHECK_DELAY = 60 * 5 #delay for the check grade thread 
+GRADE_CHECK_DELAY = 60 * 5  # delay for the check grade thread
 MAIL_SEND_DELAY = 15
 
 
@@ -31,6 +31,7 @@ MAIL_TARGET = 6
 TOTAL = 7
 
 error = False
+
 
 def get_user_params():
     username = input("Enter Afeka's username:")
@@ -50,9 +51,9 @@ def start_server():
             grades = {}
             print("No saved file found, starting from zero")
         if data:
-            username,password = data[0:2]
+            username, password = data[0:2]
             smtp_data = data[2:]
-        else: 
+        else:
             username, password = get_user_params()
             if first_time:
                 smtp_data = get_smtp_params()
@@ -70,7 +71,7 @@ def start_server():
     print("config file saved in\n")
 
     flag = True
-    year = 2020  #default values - will be replaces
+    year = 2020  # default values - will be replaces
     semester = 1
     while(flag):
         year = input("Please enter academic year to listen to:")
@@ -82,15 +83,16 @@ def start_server():
         except Exception as e:
             print(e)
             print("Invalid values!")
-    print("Starting checking on grades for year - {}, semster - {}".format(year,semester))
-    grade_thread = threading.Thread(target=check_grades,args=[session, year, semester,grades, username, password],daemon=True)
+    print("Starting checking on grades for year - {}, semster - {}".format(year, semester))
+    grade_thread = threading.Thread(target=check_grades, args=[
+                                    session, year, semester, grades, username, password], daemon=True)
     grade_thread.start()
 
-    
-    smtp_server = MailServer(smtp_data[SMTP_USERNAME - 2],smtp_data[SMTP_PASSWORD - 2],smtp_data[SMTP_ADDRESS -2], smtp_data[SMTP_PORT - 2])
+    smtp_server = MailServer(smtp_data[SMTP_USERNAME - 2], smtp_data[SMTP_PASSWORD - 2],
+                             smtp_data[SMTP_ADDRESS - 2], smtp_data[SMTP_PORT - 2])
     smtp_server.set_target(smtp_data[MAIL_TARGET - 2])
     while not error:
-        time.sleep(MAIL_SEND_DELAY) 
+        time.sleep(MAIL_SEND_DELAY)
         check_for_updates(smtp_server)
 
 
@@ -103,10 +105,9 @@ def check_for_updates(smtp_server: MailServer):
         for k in updated_grades:
             body += "<b>{}:</b> {}\n".format(k, updated_grades[k])
             print("\nNew Grade:{} == {}\n<br>".format(k, updated_grades[k]))
-        body +="</div>\n"
-        updated_grades = {} #reset
+        body += "</div>\n"
+        updated_grades = {}  # reset
         smtp_server.sendMessage(body)
-    
 
 
 def check_grades(session, year, semester, last_grades, username, password):
@@ -131,8 +132,8 @@ def check_grades(session, year, semester, last_grades, username, password):
             for k in diff_grades:
                 last_grades[k] = diff_grades[k]
 
-            save_grades(last_grades)  
-            time.sleep(GRADE_CHECK_DELAY) #sleep for 5 minutes
+            save_grades(last_grades)
+            time.sleep(GRADE_CHECK_DELAY)  # sleep for 5 minutes
     except:
         global error
         error = True
@@ -144,7 +145,7 @@ def get_diff_grades(old, new):
     for k in new:
         try:
             flag = True
-            if old[k] == new[k]: #same grade without change
+            if old[k] == new[k]:  # same grade without change
                 flag = False
         except:
             flag = True
@@ -153,6 +154,7 @@ def get_diff_grades(old, new):
             if flag:
                 diff[k] = new[k]
     return diff
+
 
 def load_settings():
     with open("data", "rb") as f:
@@ -167,12 +169,11 @@ def load_settings():
 
 def save_settings(data):
     data_b = ""
-    with open("data",'wb') as f:
+    with open("data", 'wb') as f:
         for line in data:
             data_b += "\n" + line
         data_b = data_b.encode()
         f.write(base64.encodebytes(data_b))
-    
 
 
 def save_grades(grades):
@@ -188,7 +189,7 @@ def read_grades():
         with open("grades.txt", 'rb') as f:
             for _, line in enumerate(f):
                 line = line.decode()
-                line = line.replace("\n","")
+                line = line.replace("\n", "")
                 try:
                     sub, grade = line.split("=")
                     try:
@@ -198,7 +199,7 @@ def read_grades():
                     raw_grade[sub] = grade
                 except:
                     print("{} - not in the right format, skipping...".format(line))
-    except IOError :
+    except IOError:
         return None
     return raw_grade
 
@@ -257,7 +258,8 @@ def get_grades(grade_page):
         raw_subject = raw_subject.replace("\r\n", "")
         raw_subject = re.sub(r'\d+', "", raw_subject).strip()
         subject_type = (''.join(row.findChildren("td")[2])).strip()
-        raw_grade = (''.join(row.findChildren("td")[5].contents)).replace("\xa0", "").strip()
+        raw_grade = (''.join(row.findChildren("td")[5].contents)).replace(
+            "\xa0", "").strip()
         try:
             raw_grade = int(raw_grade)
         except:
@@ -265,8 +267,6 @@ def get_grades(grade_page):
         val = "{}({})".format(raw_subject, subject_type)
         grades[val] = raw_grade
     return grades
-
-
 
 
 def afeka_login_key(session: Session):
@@ -333,11 +333,6 @@ def get_grade_page(url, session: Session, year, semester):
     return res
 
 
-def update_cookies(session, cookies):  # TODO: Check if it can be removed (and get_cookies)
-    for cookie in cookies:
-        session.cookies[cookie] = cookies[cookie]
-
-
 def get_smtp_params():
     print("\nSetting up the smtp server...")
     print("Enter smtp address (smtp.gmail.com for gmail)")
@@ -349,22 +344,7 @@ def get_smtp_params():
     print("Enter the password for that username")
     password = getpass("password (hidden):")
 
-    return [smtp, port, username,password,target]
-
-
-def get_cookies(res):
-    cookies = {}
-    raw_cookies = res.headers['Set-Cookie'].split(',')
-    for cookie_raw in raw_cookies:
-        cookie_raw = cookie_raw.replace("secure", "")
-        cookie_raw = cookie_raw.split(";")[0]
-        cookie_raw = cookie_raw.strip()
-        try:
-            (header, value) = cookie_raw.split("=")
-            cookies[header] = value
-        except:
-            print("Error reading the cookie - ", cookie_raw)
-    return cookies
+    return [smtp, port, username, password, target]
 
 
 if __name__ == "__main__":
