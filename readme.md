@@ -38,3 +38,7 @@ password (hidden): ***The password of the username above***
 Please enter the academic year to listen to: ***Year*** [like 2020]
 
 Please enter the semester to listen to:***Semester*** [like 1]
+
+### IMPORTANT
+***For the SMTP account, if you use Gmail, make sure to turn ON "Less secure app access"***
+***in case that you have two-factor authentication, add an app password in the Gmail settings***
