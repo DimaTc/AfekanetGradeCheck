@@ -114,14 +114,16 @@ def check_grades(session, year, semester, last_grades, username, password):
     try:
         print("Listening for changes...")
         first_run = True
+        kept_alive = True
         while(True):
             print(time.ctime(time.time()),end=": ")
             grade_page = get_grade_page(main_url, session, year, semester)
-            if not grade_page:
+            if not grade_page or not kept_alive:
                 try:
                     print("Authentication error - trying to re-login")
                     session.close()
                     session = get_logged_in_session(username, password)
+                    continue
                 except Exception as e:
                     print("Relogin didn't go well - try to restart the server ")
                     raise e
@@ -137,7 +139,7 @@ def check_grades(session, year, semester, last_grades, username, password):
 
             save_grades(last_grades)
             time.sleep(GRADE_CHECK_DELAY)  # sleep for 5 minutes
-            keep_alive(session)
+            kept_alive = keep_alive(session)
     except Exception as e:
         print(e)
         global error
@@ -145,9 +147,13 @@ def check_grades(session, year, semester, last_grades, username, password):
 
 
 def keep_alive(session: Session):
-    url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx?prgname=StayConnect"
-    session.post(url,headers=headers)
-
+    try:
+        url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx?prgname=StayConnect"
+        session.post(url,headers=headers)
+    except Exception as e:
+        print(e)
+        return False
+    return True
 
 def get_diff_grades(old, new):
     diff = {}
