@@ -17,7 +17,7 @@ main_url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx"
 
 updated_grades = {}
 
-GRADE_CHECK_DELAY = 60 * 5  # delay for the check grade thread
+GRADE_CHECK_DELAY = 60 * 2  # delay for the check grade thread
 MAIL_SEND_DELAY = 15
 
 
@@ -115,9 +115,12 @@ def check_grades(session, year, semester, last_grades, username, password):
         print("Listening for changes...")
         first_run = True
         while(True):
+            print(time.ctime(time.time()),end=": ")
             grade_page = get_grade_page(main_url, session, year, semester)
             if not grade_page:
                 try:
+                    print("Authentication error - trying to re-login")
+                    session.close()
                     session = get_logged_in_session(username, password)
                 except Exception as e:
                     print("Relogin didn't go well - try to restart the server ")
@@ -134,9 +137,16 @@ def check_grades(session, year, semester, last_grades, username, password):
 
             save_grades(last_grades)
             time.sleep(GRADE_CHECK_DELAY)  # sleep for 5 minutes
-    except:
+            keep_alive(session)
+    except Exception as e:
+        print(e)
         global error
         error = True
+
+
+def keep_alive(session: Session):
+    url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx?prgname=StayConnect"
+    session.post(url,headers=headers)
 
 
 def get_diff_grades(old, new):
@@ -314,24 +324,25 @@ def get_grade_page(url, session: Session, year, semester):
         "ARGUMENTS": "TZ%2CUNIQ%2CMisparSheilta%2CR1C1%2CR1C2",
         "MisparSheilta": "13",
     }
-    res = session.post(url, headers=headers, data=params1)
-    soup = BeautifulSoup(res.content, 'html.parser')
-    e_tz = soup.find(attrs={'name': 'TZ'})
-    e_uniq = soup.find(attrs={'name': 'UNIQ'})
-    tz = ""
-    uniq = ""
     try:
+        res = session.post(url, headers=headers, data=params1)
+        soup = BeautifulSoup(res.content, 'html.parser')
+        e_tz = soup.find(attrs={'name': 'TZ'})
+        e_uniq = soup.find(attrs={'name': 'UNIQ'})
+        tz = ""
+        uniq = ""
         tz = e_tz['value']
         uniq = e_uniq['value']
-    except:
-        print("There was a problem getting to the grade page")
-        return None
-    params2["TZ"] = tz
-    params2["UNIQ"] = uniq
-    params2["R1C1"] = year
-    params2["R1C2"] = semester
-    print("Got UNIQ and TZ - {} , {}".format(uniq, tz))
-    res = session.post(main_url, data=params2, headers=headers)
+        params2["TZ"] = tz
+        params2["UNIQ"] = uniq
+        params2["R1C1"] = year
+        params2["R1C2"] = semester
+        print("Got UNIQ and TZ - {} , {}".format(uniq, tz))
+        res = session.post(main_url, data=params2, headers=headers)
+    except Exception as e:
+            print(e)
+            print("There was a problem getting the grade page")
+            return None
 
     return res
 
