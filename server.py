@@ -118,7 +118,7 @@ def check_grades(session, year, semester, last_grades, username, password):
         while(True):
             print(time.ctime(time.time()),end=": ")
             grade_page = get_grade_page(main_url, session, year, semester)
-            if not grade_page or not kept_alive:
+            if grade_page == None or not kept_alive:
                 try:
                     print("Authentication error - trying to re-login")
                     session.close()
@@ -343,8 +343,9 @@ def get_grade_page(url, session: Session, year, semester):
         params2["UNIQ"] = uniq
         params2["R1C1"] = year
         params2["R1C2"] = semester
-        print("Got UNIQ and TZ - {} , {}".format(uniq, tz))
+        print("Got UNIQ and TZ - {} , {}".format(uniq, tz),end=" ")
         res = session.post(main_url, data=params2, headers=headers)
+        print("({})".format(res.status_code))
     except Exception as e:
             print(e)
             print("There was a problem getting the grade page")
