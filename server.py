@@ -17,7 +17,7 @@ main_url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx"
 
 updated_grades = {}
 
-GRADE_CHECK_DELAY = 60 * 2  # delay for the check grade thread
+GRADE_CHECK_DELAY = 60 * 15  # delay for the check grade thread
 MAIL_SEND_DELAY = 15
 
 
@@ -103,8 +103,8 @@ def check_for_updates(smtp_server: MailServer):
         body += "Content-Type: text/html; charset=\"UTF-8\"\n\n"
         body += "<div dir=\"rtl\">\n"
         for k in updated_grades:
-            body += "<b>{}:</b> {}\n".format(k, updated_grades[k])
-            print("\nNew Grade:{} == {}\n<br>".format(k, updated_grades[k]))
+            body += "<b>{}:</b> {}\n<br>".format(k, updated_grades[k])
+            print("\nNew Grade:{} == {}\n".format(k, updated_grades[k]))
         body += "</div>\n"
         updated_grades = {}  # reset
         smtp_server.sendMessage(body)
@@ -121,7 +121,7 @@ def check_grades(session, year, semester, last_grades, username, password):
             if grade_page == None or not kept_alive:
                 try:
                     print("Authentication error - trying to re-login")
-                    session.close()
+                    # session.close()
                     session = get_logged_in_session(username, password)
                     continue
                 except Exception as e:
