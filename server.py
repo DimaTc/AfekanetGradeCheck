@@ -17,7 +17,9 @@ main_url = "https://yedion.afeka.ac.il/yedion/fireflyweb.aspx"
 
 updated_grades = {}
 
-GRADE_CHECK_DELAY = 60 * 15  # delay for the check grade thread
+proxy = {"http":"localhost:8888","https":"localhost:8888"}
+
+GRADE_CHECK_DELAY = 60 * 2  # delay for the check grade thread
 MAIL_SEND_DELAY = 15
 
 
@@ -64,6 +66,9 @@ def start_server():
             login_failed = False
         except:
             print("Login Error, Check username/password")
+            if data:
+                time.sleep(60)
+
     print("Successfully logged in")
     tmp = [username, password]
     tmp.extend(smtp_data)
@@ -91,6 +96,7 @@ def start_server():
     smtp_server = MailServer(smtp_data[SMTP_USERNAME - 2], smtp_data[SMTP_PASSWORD - 2],
                              smtp_data[SMTP_ADDRESS - 2], smtp_data[SMTP_PORT - 2])
     smtp_server.set_target(smtp_data[MAIL_TARGET - 2])
+    smtp_server.sendMessage("Server is running")
     while not error:
         time.sleep(MAIL_SEND_DELAY)
         check_for_updates(smtp_server)
@@ -114,8 +120,12 @@ def check_grades(session, year, semester, last_grades, username, password):
     try:
         print("Listening for changes...")
         first_run = True
+        first_time = True
         kept_alive = True
         while(True):
+            if not first_time:
+                time.sleep(GRADE_CHECK_DELAY)  # sleep for 5 minutes
+            first_time = False
             print(time.ctime(time.time()),end=": ")
             grade_page = get_grade_page(main_url, session, year, semester)
             if grade_page == None or not kept_alive:
@@ -138,7 +148,6 @@ def check_grades(session, year, semester, last_grades, username, password):
                 last_grades[k] = diff_grades[k]
 
             save_grades(last_grades)
-            time.sleep(GRADE_CHECK_DELAY)  # sleep for 5 minutes
             kept_alive = keep_alive(session)
     except Exception as e:
         print(e)
@@ -265,19 +274,17 @@ def login(username, password, url, session: Session):
 
 def get_grades(grade_page):
     page = BeautifulSoup(grade_page.content, 'html.parser')
-    grade_table = page.find(id="myTable0")
-    grade_table = grade_table.findChild("tbody")
-    rows = grade_table.findChildren("tr")
+    cards = page.find_all("div", {"class": "Box_ph"})
     grades = {}
-    for row in rows:
+    for card in cards:
 
-        raw_subject = ''.join(row.findChildren("td")[1].contents)
+        raw_subject = ''.join(card.findChildren("h2")[0].contents)
         raw_subject = raw_subject.replace("\xa0", " ")
         raw_subject = raw_subject.replace("\t", "")
         raw_subject = raw_subject.replace("\r\n", "")
         raw_subject = re.sub(r'\d+', "", raw_subject).strip()
-        subject_type = (''.join(row.findChildren("td")[2])).strip()
-        raw_grade = (''.join(row.findChildren("td")[5].contents)).replace(
+        subject_type = (''.join(card.findChildren("div")[1])).strip()
+        raw_grade = (''.join(card.findChildren("b")[0].contents)).replace(
             "\xa0", "").strip()
         try:
             raw_grade = int(raw_grade)
@@ -335,6 +342,9 @@ def get_grade_page(url, session: Session, year, semester):
         soup = BeautifulSoup(res.content, 'html.parser')
         e_tz = soup.find(attrs={'name': 'TZ'})
         e_uniq = soup.find(attrs={'name': 'UNIQ'})
+        if e_tz is None or e_uniq is None:
+            with open("error_page_{}.html".format(time.time()), "wb") as f:
+                f.write(res.content)
         tz = ""
         uniq = ""
         tz = e_tz['value']
@@ -343,7 +353,7 @@ def get_grade_page(url, session: Session, year, semester):
         params2["UNIQ"] = uniq
         params2["R1C1"] = year
         params2["R1C2"] = semester
-        print("Got UNIQ and TZ - {} , {}".format(uniq, tz),end=" ")
+        print("Got UNIQ and TZ - XXXXXXXXXX{} , XXXXXX{}".format(uniq[-5:-1], tz[-3:]),end=" ")
         res = session.post(main_url, data=params2, headers=headers)
         print("({})".format(res.status_code))
     except Exception as e:
@@ -359,7 +369,9 @@ def get_smtp_params():
     print("Enter smtp address (smtp.gmail.com for gmail)")
     smtp = input("Address:")
     port = input("Enter smtp port (587 for gmail):")
-    target = input("Enter target mail address:")
+    target = input("Enter target mail address[,es]:")
+    if len(target.split(",")) > 1:
+        target = target.split(",")
     print("Enter from which mail the data will be sent")
     username = input("username(or email):")
     print("Enter the password for that username")
